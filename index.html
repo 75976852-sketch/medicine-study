@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中药背诵助手</title>
+    <title>大阁中药背诵助手</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="header-top">
-                <h1>🌿 中药背诵助手</h1>
-                <div class="user-info" id="user-info" style="display: none;">
-                    <span class="user-name" id="current-user-name"></span>
-                    <div class="user-avatar" onclick="showUserMenu()" title="用户中心">
-                        <span class="avatar-icon" id="avatar-icon">👤</span>
+                <h1>🌿 大阁中药背诵助手</h1>
+                <div class="header-actions">
+                    <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleTheme()" title="切换夜间模式">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <div class="user-info" id="user-info" style="display: none;">
+                        <span class="user-name" id="current-user-name"></span>
+                        <div class="user-avatar" onclick="showUserMenu()" title="用户中心">
+                            <span class="avatar-icon" id="avatar-icon">👤</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,7 +48,7 @@
             <div class="panel login-panel" id="login-panel">
                 <div class="login-container">
                     <div class="login-header">
-                        <h2>🌿 欢迎使用中药背诵助手</h2>
+                        <h2>🌿 欢迎使用大阁中药背诵助手</h2>
                         <p class="login-subtitle">请选择或创建用户账户开始学习</p>
                     </div>
                     
@@ -53,6 +58,18 @@
                     
                     <div class="login-divider">
                         <span>或创建新用户</span>
+                    </div>
+                    
+                    <!-- 第三方登录 -->
+                    <div class="social-login-section">
+                        <button class="btn btn-google" onclick="loginWithGoogle()" disabled>
+                            <span class="social-icon">🔵</span> 使用 Google 账号登录
+                            <small class="coming-soon">（即将推出）</small>
+                        </button>
+                    </div>
+                    
+                    <div class="login-divider">
+                        <span>或</span>
                     </div>
                     
                     <div class="create-user-form">
