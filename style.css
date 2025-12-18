@@ -54,6 +54,37 @@
     --transition-slow: 0.3s ease;
 }
 
+/* 夜间模式 */
+[data-theme="dark"] {
+    /* 主色调 - 夜间模式调整 */
+    --primary-color: #66bb6a;
+    --primary-light: #81c784;
+    --primary-dark: #4caf50;
+    --primary-lighter: #1b5e20;
+    
+    /* 背景色 - 深色 */
+    --bg-primary: #121212;
+    --bg-card: #1e1e1e;
+    --bg-hover: #2d2d2d;
+    --bg-active: #1b5e20;
+    
+    /* 文字颜色 - 浅色 */
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-hint: #808080;
+    --text-on-primary: #ffffff;
+    
+    /* 边框和分割线 */
+    --border-color: #333333;
+    --border-light: #2a2a2a;
+    
+    /* 阴影 - 夜间模式减少阴影 */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 4px 20px rgba(102, 187, 106, 0.3);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -92,6 +123,32 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.theme-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--border-color);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: 20px;
+}
+
+.theme-toggle-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
 }
 
 header h1 {
@@ -1237,6 +1294,137 @@ mark {
     padding: 60px 20px;
     color: #999;
     font-size: 1.1em;
+}
+
+/* 第三方登录样式 */
+.social-login-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.btn-google {
+    width: 100%;
+    padding: 14px 20px;
+    background: #ffffff;
+    color: #333;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius-lg);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+}
+
+.btn-google:hover:not(:disabled) {
+    background: var(--bg-hover);
+    border-color: #4285f4;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-google:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.social-icon {
+    font-size: 1.2em;
+}
+
+.coming-soon {
+    font-size: 0.75em;
+    color: var(--text-hint);
+    font-weight: normal;
+    margin-left: 8px;
+}
+
+[data-theme="dark"] .btn-google {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .btn-google:hover:not(:disabled) {
+    background: var(--bg-hover);
+    border-color: #4285f4;
+}
+
+/* 标签页样式 */
+.section-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1em;
+    transition: all var(--transition-base);
+    margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* 搜索结果样式 */
+.search-result-item {
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.search-result-item:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.result-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.result-details {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.result-effect {
+    margin-bottom: 4px;
+}
+
+/* 夜间模式下的标签页 */
+[data-theme="dark"] .tab-btn {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .tab-btn.active {
+    color: var(--primary-light);
+    border-bottom-color: var(--primary-light);
 }
 
 @media (max-width: 768px) {
