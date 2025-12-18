@@ -2574,6 +2574,268 @@ function showMedicineDetailFromHistory(medicineId) {
     }
 }
 
+// 夜间模式切换
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // 更新图标
+    const themeIcon = document.querySelector('.theme-icon');
+    if (themeIcon) {
+        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+// 初始化主题
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const html = document.documentElement;
+    html.setAttribute('data-theme', savedTheme);
+    
+    const themeIcon = document.querySelector('.theme-icon');
+    if (themeIcon) {
+        themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+// 第三方登录（Google）- 占位函数
+function loginWithGoogle() {
+    alert('Google 账号登录功能即将推出！\n\n目前请使用"创建账户"功能。');
+    // TODO: 集成 Google OAuth
+    // 需要后端支持，可以后续添加
+}
+
+// 中药查询功能
+let allMedicinesLoaded = false;
+
+// 加载所有中药列表
+function loadAllMedicines() {
+    if (allMedicinesLoaded) return;
+    
+    const container = document.getElementById('all-medicines-container');
+    if (!container) return;
+    
+    // 按分类组织中药
+    const categories = getAllCategories();
+    const categorizedMedicines = {};
+    
+    categories.forEach(category => {
+        const ids = medicineCategories[category] || [];
+        categorizedMedicines[category] = ids.map(id => {
+            return medicineDatabase.find(m => m.id === id);
+        }).filter(m => m !== undefined);
+    });
+    
+    let html = '';
+    categories.forEach(category => {
+        const medicines = categorizedMedicines[category];
+        if (medicines.length === 0) return;
+        
+        const displayName = getCategoryFullDisplayName(category);
+        html += `
+            <div class="medicine-category-group" data-category="${category}">
+                <div class="category-title">${displayName}</div>
+                <div class="medicines-grid-view">
+                    ${medicines.map(med => `
+                        <div class="medicine-item-card" onclick="showMedicineDetail(${med.id})">
+                            <div class="medicine-item-name">${med.name}</div>
+                            <div class="medicine-item-info">${med.effect || '-'}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    allMedicinesLoaded = true;
+}
+
+// 搜索中药
+function searchMedicines() {
+    const searchInput = document.getElementById('medicine-search');
+    const searchResults = document.getElementById('search-results');
+    const searchResultsList = document.getElementById('search-results-list');
+    const searchCount = document.getElementById('search-count');
+    const allMedicinesSection = document.getElementById('all-medicines-section');
+    const searchTabBtn = document.getElementById('search-tab-btn');
+    
+    if (!searchInput || !searchResults) return;
+    
+    const query = searchInput.value.trim().toLowerCase();
+    
+    if (!query) {
+        searchResults.style.display = 'none';
+        allMedicinesSection.style.display = 'block';
+        searchTabBtn.style.display = 'none';
+        // 激活"查看所有中药"标签
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(tab => {
+            if (tab.textContent.includes('查看所有中药')) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+        return;
+    }
+    
+    // 搜索所有中药
+    const results = medicineDatabase.filter(med => {
+        const name = (med.name || '').toLowerCase();
+        const nature = (med.nature || '').toLowerCase();
+        const channel = (med.channel || '').toLowerCase();
+        const effect = (med.effect || '').toLowerCase();
+        const indication = (med.indication || '').toLowerCase();
+        
+        return name.includes(query) || 
+               nature.includes(query) || 
+               channel.includes(query) || 
+               effect.includes(query) || 
+               indication.includes(query);
+    });
+    
+    // 显示搜索结果
+    searchCount.textContent = results.length;
+    
+    if (results.length === 0) {
+        searchResultsList.innerHTML = '<p style="padding: 20px; text-align: center; color: #999;">未找到匹配的中药</p>';
+    } else {
+        searchResultsList.innerHTML = results.map(med => `
+            <div class="search-result-item" onclick="showMedicineDetail(${med.id})">
+                <div class="result-name">${med.name}</div>
+                <div class="result-details">
+                    <div class="result-effect"><strong>功效：</strong>${med.effect || '-'}</div>
+                    ${med.nature ? `<div><strong>性味：</strong>${med.nature}</div>` : ''}
+                    ${med.channel ? `<div><strong>归经：</strong>${med.channel}</div>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    searchResults.style.display = 'block';
+    allMedicinesSection.style.display = 'none';
+    searchTabBtn.style.display = 'inline-block';
+    
+    // 激活"搜索结果"标签
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+        if (tab.textContent.includes('搜索结果')) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+}
+
+// 显示所有中药
+function showAllMedicines() {
+    const searchResults = document.getElementById('search-results');
+    const allMedicinesSection = document.getElementById('all-medicines-section');
+    const searchTabBtn = document.getElementById('search-tab-btn');
+    const searchInput = document.getElementById('medicine-search');
+    
+    if (searchResults) searchResults.style.display = 'none';
+    if (allMedicinesSection) allMedicinesSection.style.display = 'block';
+    if (searchTabBtn) searchTabBtn.style.display = 'none';
+    if (searchInput) searchInput.value = '';
+    
+    // 激活"查看所有中药"标签
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+        if (tab.textContent.includes('查看所有中药')) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+    
+    loadAllMedicines();
+}
+
+// 显示搜索结果
+function showSearchResults() {
+    const searchResults = document.getElementById('search-results');
+    const allMedicinesSection = document.getElementById('all-medicines-section');
+    
+    if (searchResults) searchResults.style.display = 'block';
+    if (allMedicinesSection) allMedicinesSection.style.display = 'none';
+    
+    // 激活"搜索结果"标签
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+        if (tab.textContent.includes('搜索结果')) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+}
+
+// 切换中药浏览面板
+let browsePanelExpanded = true;
+function toggleMedicineBrowse() {
+    const panel = document.getElementById('medicine-browse-panel');
+    const content = document.getElementById('browse-content');
+    const btn = document.getElementById('toggle-browse-btn');
+    
+    if (!panel || !content || !btn) return;
+    
+    browsePanelExpanded = !browsePanelExpanded;
+    
+    if (browsePanelExpanded) {
+        content.style.display = 'block';
+        btn.textContent = '收起';
+        loadAllMedicines();
+    } else {
+        content.style.display = 'none';
+        btn.textContent = '展开';
+    }
+}
+
+// 显示中药详情
+function showMedicineDetail(medicineId) {
+    const medicine = typeof medicineId === 'number' 
+        ? medicineDatabase.find(m => m.id === medicineId)
+        : medicineId;
+    
+    if (!medicine) return;
+    
+    // 使用现有的详情显示功能
+    const modal = document.getElementById('detail-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    
+    modalTitle.textContent = medicine.name;
+    
+    modalBody.innerHTML = `
+        <div class="medicine-detail-view">
+            <div class="detail-name">${medicine.name}</div>
+            <div class="detail-category">${getCategoryFullDisplayName(getMedicineCategory(medicine.id)) || '未分类'}</div>
+            <div class="detail-info-grid">
+                <div class="detail-info-item">
+                    <strong>性味：</strong>${medicine.nature || '-'}
+                </div>
+                <div class="detail-info-item">
+                    <strong>归经：</strong>${medicine.channel || '-'}
+                </div>
+                <div class="detail-info-item full-width">
+                    <strong>功效：</strong>${medicine.effect || '-'}
+                </div>
+                <div class="detail-info-item full-width">
+                    <strong>主治：</strong>${medicine.indication || '-'}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    modal.style.display = 'block';
+}
+
 // 点击模态框外部关闭
 window.onclick = function(event) {
     const detailModal = document.getElementById('detail-modal');
