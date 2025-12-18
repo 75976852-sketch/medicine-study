@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中药背诵助手</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>🌿 中药背诵助手</h1>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <span class="user-name" id="current-user-name"></span>
+                    <div class="user-avatar" onclick="showUserMenu()" title="用户中心">
+                        <span class="avatar-icon" id="avatar-icon">👤</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-bar">
+                <div class="stat-item clickable-stat" onclick="viewTodayNewList()">
+                    <span class="stat-label">今日新学</span>
+                    <span class="stat-value" id="today-new">0</span>
+                </div>
+                <div class="stat-item clickable-stat" onclick="viewTodayReviewList()">
+                    <span class="stat-label">今日复习</span>
+                    <span class="stat-value" id="today-review">0</span>
+                </div>
+                <div class="stat-item clickable-stat" onclick="viewMasteredList()">
+                    <span class="stat-label">已掌握</span>
+                    <span class="stat-value" id="mastered-count">0</span>
+                </div>
+                <div class="stat-item clickable-stat" onclick="viewTotalProgressList()">
+                    <span class="stat-label">总进度</span>
+                    <span class="stat-value" id="total-progress">0/0</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- 登录面板 -->
+            <div class="panel login-panel" id="login-panel">
+                <div class="login-container">
+                    <div class="login-header">
+                        <h2>🌿 欢迎使用中药背诵助手</h2>
+                        <p class="login-subtitle">请选择或创建用户账户开始学习</p>
+                    </div>
+                    
+                    <div class="user-list-container" id="user-list-container">
+                        <!-- 用户列表将动态填充 -->
+                    </div>
+                    
+                    <div class="login-divider">
+                        <span>或创建新用户</span>
+                    </div>
+                    
+                    <div class="create-user-form">
+                        <div class="form-group">
+                            <input type="text" id="new-user-name" placeholder="请输入用户名（2-20个字符）" maxlength="20" onkeypress="if(event.key==='Enter') createNewUser()">
+                        </div>
+                        <div class="form-group">
+                            <select id="new-user-avatar" class="avatar-selector">
+                                <option value="👤">👤 默认</option>
+                                <option value="👨">👨 男性</option>
+                                <option value="👩">👩 女性</option>
+                                <option value="🧑">🧑 中性</option>
+                                <option value="👨‍⚕️">👨‍⚕️ 医生</option>
+                                <option value="👩‍⚕️">👩‍⚕️ 护士</option>
+                                <option value="🎓">🎓 学生</option>
+                                <option value="📚">📚 学者</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="createNewUser()">创建账户</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户菜单下拉框 -->
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <div class="user-menu-item" onclick="viewStudyHistory()">
+                    <span class="menu-icon">📚</span> 学习记录
+                </div>
+                <div class="user-menu-item" onclick="showUserProfile()">
+                    <span class="menu-icon">👤</span> 个人档案
+                </div>
+                <div class="user-menu-item" onclick="switchUser()">
+                    <span class="menu-icon">🔄</span> 切换用户
+                </div>
+                <div class="user-menu-divider"></div>
+                <div class="user-menu-item danger" onclick="deleteCurrentUser()">
+                    <span class="menu-icon">🗑️</span> 删除账户
+                </div>
+            </div>
+
+            <!-- 中药查看和搜索面板 -->
+            <div class="panel medicine-browse-panel" id="medicine-browse-panel">
+                <div class="panel-header">
+                    <h2>🔍 中药查询</h2>
+                    <button class="btn btn-secondary" onclick="toggleMedicineBrowse()" id="toggle-browse-btn">收起</button>
+                </div>
+                <div class="browse-content" id="browse-content">
+                    <div class="search-section">
+                        <div class="search-box">
+                            <input type="text" id="medicine-search" placeholder="搜索中药名称、性味、功效、主治..." oninput="searchMedicines()">
+                            <span class="search-icon">🔍</span>
+                        </div>
+                        <div id="search-results" class="search-results" style="display: none;">
+                            <div class="search-results-header">
+                                <p>搜索结果：<strong id="search-count">0</strong> 个</p>
+                            </div>
+                            <div id="search-results-list" class="search-results-list">
+                                <!-- 搜索结果将动态填充 -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="all-medicines-section" id="all-medicines-section">
+                        <div class="section-tabs">
+                            <button class="tab-btn active" onclick="showAllMedicines()">查看所有中药</button>
+                            <button class="tab-btn" onclick="showSearchResults()" id="search-tab-btn" style="display: none;">搜索结果</button>
+                        </div>
+                        <div id="all-medicines-container" class="medicines-list-container">
+                            <!-- 所有中药列表将动态填充 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置面板 -->
+            <div class="panel settings-panel" id="settings-panel">
+                <h2>⚙️ 学习设置</h2>
+                <div class="setting-item">
+                    <label for="daily-goal">每日新学数量：</label>
+                    <input type="number" id="daily-goal" min="1" max="50" value="10">
+                    <button class="btn btn-primary" onclick="updateDailyGoal()">保存设置</button>
+                </div>
+                <div class="setting-item">
+                    <label>快速设置：</label>
+                    <button class="btn btn-secondary" onclick="setDailyGoal(3)">3个</button>
+                    <button class="btn btn-secondary" onclick="setDailyGoal(5)">5个</button>
+                    <button class="btn btn-secondary" onclick="setDailyGoal(10)">10个</button>
+                </div>
+                <div class="setting-item">
+                    <label>当前每日目标：<strong id="current-goal">10</strong> 个中药</label>
+                </div>
+                <div class="setting-item completion-estimate">
+                    <h3>📅 预计完成时间</h3>
+                    <div id="completion-estimate-display" class="estimate-display">
+                        <p id="estimate-message">计算中...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习模式 -->
+            <div class="panel study-panel" id="study-panel" style="display: none;">
+                <div class="study-header">
+                    <h2 id="study-mode-title">学习新中药</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="study-progress"></div>
+                    </div>
+                    <p class="progress-text" id="study-progress-text">0 / 0</p>
+                </div>
+                
+                <div class="medicine-card" id="medicine-card">
+                    <div class="card-front">
+                        <h3 class="medicine-name" id="medicine-name">加载中...</h3>
+                        <div class="card-hint">点击卡片查看详情</div>
+                    </div>
+                    <div class="card-back" id="card-back">
+                        <div class="medicine-info">
+                            <div class="info-item">
+                                <strong>性味：</strong><span id="medicine-nature">-</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>归经：</strong><span id="medicine-channel">-</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>功效：</strong><span id="medicine-effect">-</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>主治：</strong><span id="medicine-indication">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="study-actions">
+                    <button class="btn btn-info" onclick="previousMedicine()" id="prev-btn" style="display: none;">⬅️ 上一个</button>
+                    <button class="btn btn-secondary" onclick="markAsMastered()">✅ 已掌握</button>
+                    <button class="btn btn-primary" onclick="nextMedicine()">下一个 ➡️</button>
+                </div>
+            </div>
+
+            <!-- 复习模式 -->
+            <div class="panel review-panel" id="review-panel" style="display: none;">
+                <div class="study-header">
+                    <h2>📚 复习中药</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="review-progress"></div>
+                    </div>
+                    <p class="progress-text" id="review-progress-text">0 / 0</p>
+                </div>
+                
+                <div class="medicine-card" id="review-card">
+                    <div class="card-front">
+                        <h3 class="medicine-name" id="review-name">加载中...</h3>
+                        <div class="card-hint">点击卡片查看详情</div>
+                    </div>
+                    <div class="card-back" id="review-back">
+                        <div class="medicine-info">
+                            <div class="info-item">
+                                <strong>性味：</strong><span id="review-nature">-</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>归经：</strong><span id="review-channel">-</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>功效：</strong><span id="review-effect">-</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>主治：</strong><span id="review-indication">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="study-actions">
+                    <button class="btn btn-danger" onclick="markAsForgotten()">❌ 未记住</button>
+                    <button class="btn btn-success" onclick="markReviewAsKnown()">✅ 已记住</button>
+                    <button class="btn btn-secondary" onclick="markReviewAsMastered()">✅ 已掌握</button>
+                    <button class="btn btn-primary" onclick="nextReview()">下一个</button>
+                </div>
+            </div>
+
+            <!-- 主菜单 -->
+            <div class="panel menu-panel" id="menu-panel">
+                <div class="menu-buttons">
+                    <button class="btn btn-large btn-primary" onclick="startStudy()">
+                        📖 开始学习新中药
+                    </button>
+                    <button class="btn btn-large btn-secondary" onclick="startReview()">
+                        🔄 开始复习
+                    </button>
+                    <button class="btn btn-large btn-info" onclick="viewMedicineSelection()">
+                        ✅ 选择要学习的中药
+                    </button>
+                    <button class="btn btn-large btn-info" onclick="viewStatistics()">
+                        📊 学习统计
+                    </button>
+                    <button class="btn btn-large btn-warning" onclick="resetData()">
+                        🔄 重置数据
+                    </button>
+                </div>
+            </div>
+
+            <!-- 中药选择面板 -->
+            <div class="panel selection-panel" id="selection-panel" style="display: none;">
+                <div class="selection-header">
+                    <h2>✅ 选择要学习的中药</h2>
+                    <div class="selection-tools">
+                        <button class="btn btn-secondary" onclick="selectAllCategories()">全选分类</button>
+                        <button class="btn btn-secondary" onclick="deselectAllCategories()">全不选</button>
+                        <button class="btn btn-primary" onclick="confirmSelection()">确认选择</button>
+                        <button class="btn btn-info" onclick="backToMenu()">返回</button>
+                    </div>
+                    <div class="selection-summary">
+                        <span>已选择: <strong id="selected-count">0</strong> / <strong id="total-count">0</strong> 个中药</span>
+                    </div>
+                </div>
+                
+                <div class="category-filter">
+                    <label>筛选分类：</label>
+                    <select id="category-filter-select" onchange="filterByCategory()">
+                        <option value="">所有分类</option>
+                    </select>
+                </div>
+
+                <div class="categories-container" id="categories-container">
+                    <!-- 分类列表将动态生成 -->
+                </div>
+            </div>
+
+            <!-- 统计面板 -->
+            <div class="panel stats-panel" id="stats-panel" style="display: none;">
+                <h2>📊 学习统计</h2>
+                <div class="stats-content">
+                    <div class="stat-card">
+                        <h3>总体进度</h3>
+                        <p class="big-number" id="stat-total-progress">0%</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>已掌握</h3>
+                        <p class="big-number" id="stat-mastered">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>学习中</h3>
+                        <p class="big-number" id="stat-learning">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>待复习</h3>
+                        <p class="big-number" id="stat-pending-review">0</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="backToMenu()">返回</button>
+            </div>
+
+            <!-- 详情查看模态框 -->
+            <div class="modal" id="detail-modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">详情列表</h2>
+                        <span class="modal-close" onclick="closeDetailModal()">&times;</span>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <!-- 内容将动态填充 -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="closeDetailModal()">关闭</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加练数量选择模态框 -->
+            <div class="modal" id="extra-practice-modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>🎉 恭喜完成今日目标！</h2>
+                        <span class="modal-close" onclick="closeExtraPracticeModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center; margin-bottom: 20px; font-size: 1.1em;">
+                            是否继续加练学习更多中药？
+                        </p>
+                        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="startExtraPractice(3)" style="min-width: 100px;">
+                                加练 3 个
+                            </button>
+                            <button class="btn btn-primary" onclick="startExtraPractice(5)" style="min-width: 100px;">
+                                加练 5 个
+                            </button>
+                            <button class="btn btn-primary" onclick="startExtraPractice(10)" style="min-width: 100px;">
+                                加练 10 个
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeExtraPracticeModal()">结束学习</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习记录模态框 -->
+            <div class="modal" id="study-history-modal" style="display: none;">
+                <div class="modal-content history-modal-content">
+                    <div class="modal-header">
+                        <h2>📚 学习记录</h2>
+                        <span class="modal-close" onclick="closeStudyHistoryModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div id="study-history-content">
+                            <!-- 学习记录内容将动态填充 -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="closeStudyHistoryModal()">关闭</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户档案模态框 -->
+            <div class="modal" id="user-profile-modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>👤 个人档案</h2>
+                        <span class="modal-close" onclick="closeUserProfileModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="profile-content">
+                            <div class="profile-avatar-section">
+                                <div class="profile-avatar-large" id="profile-avatar-display">👤</div>
+                                <select id="profile-avatar-select" class="avatar-selector" onchange="updateProfileAvatar()">
+                                    <option value="👤">👤 默认</option>
+                                    <option value="👨">👨 男性</option>
+                                    <option value="👩">👩 女性</option>
+                                    <option value="🧑">🧑 中性</option>
+                                    <option value="👨‍⚕️">👨‍⚕️ 医生</option>
+                                    <option value="👩‍⚕️">👩‍⚕️ 护士</option>
+                                    <option value="🎓">🎓 学生</option>
+                                    <option value="📚">📚 学者</option>
+                                </select>
+                            </div>
+                            <div class="profile-info-section">
+                                <div class="form-group">
+                                    <label>用户名</label>
+                                    <input type="text" id="profile-user-name" maxlength="20" onchange="updateProfileName()">
+                                </div>
+                                <div class="profile-stats">
+                                    <div class="profile-stat-item">
+                                        <span class="stat-label">总学习天数</span>
+                                        <span class="stat-value" id="profile-total-days">0</span>
+                                    </div>
+                                    <div class="profile-stat-item">
+                                        <span class="stat-label">已学习中药</span>
+                                        <span class="stat-value" id="profile-learned-count">0</span>
+                                    </div>
+                                    <div class="profile-stat-item">
+                                        <span class="stat-label">已掌握中药</span>
+                                        <span class="stat-value" id="profile-mastered-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="closeUserProfileModal()">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

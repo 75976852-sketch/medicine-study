@@ -1,0 +1,92 @@
+# Nginx 配置文件示例
+# 将此文件复制到 /etc/nginx/sites-available/medicine-study
+# 然后创建软链接：sudo ln -s /etc/nginx/sites-available/medicine-study /etc/nginx/sites-enabled/
+# 测试配置：sudo nginx -t
+# 重启 Nginx：sudo systemctl restart nginx
+
+server {
+    listen 80;
+    server_name your-domain.com www.your-domain.com;  # 替换为你的域名
+    
+    root /var/www/medicine-study;  # 替换为你的网站根目录
+    index index.html;
+    
+    # 日志配置
+    access_log /var/log/nginx/medicine-study-access.log;
+    error_log /var/log/nginx/medicine-study-error.log;
+    
+    # 启用 Gzip 压缩
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml text/javascript 
+               application/javascript application/xml+rss 
+               application/json application/xml;
+    gzip_disable "msie6";
+    
+    # 缓存静态资源
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+    
+    # HTML 文件不缓存
+    location ~* \.html$ {
+        expires -1;
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Pragma "no-cache";
+    }
+    
+    # SPA 路由支持
+    location / {
+        try_files $uri $uri/ /index.html;
+        
+        # 安全头部
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    }
+    
+    # 禁止访问隐藏文件
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+    
+    # 禁止访问特定文件类型
+    location ~* \.(py|pyc|log|sh|sql|md)$ {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+}
+
+# HTTPS 配置（使用 Let's Encrypt 证书后）
+# server {
+#     listen 443 ssl http2;
+#     server_name your-domain.com www.your-domain.com;
+#     
+#     ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
+#     
+#     ssl_protocols TLSv1.2 TLSv1.3;
+#     ssl_ciphers HIGH:!aNULL:!MD5;
+#     ssl_prefer_server_ciphers on;
+#     
+#     root /var/www/medicine-study;
+#     index index.html;
+#     
+#     # 其他配置同 HTTP...
+# }
+# 
+# # HTTP 重定向到 HTTPS
+# server {
+#     listen 80;
+#     server_name your-domain.com www.your-domain.com;
+#     return 301 https://$server_name$request_uri;
+# }
+

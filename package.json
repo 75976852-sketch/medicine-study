@@ -1,0 +1,22 @@
+{
+  "name": "medicine-study-app",
+  "version": "1.0.0",
+  "description": "中药背诵助手 - 基于艾宾浩斯记忆曲线的学习应用",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "medicine",
+    "study",
+    "memory",
+    "chinese-medicine"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
+

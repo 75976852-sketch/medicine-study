@@ -1,0 +1,1269 @@
+/* CSS变量系统 - 统一的配色方案 */
+:root {
+    /* 主色调 - 温和的绿色系（中药主题） */
+    --primary-color: #4caf50;
+    --primary-light: #81c784;
+    --primary-dark: #388e3c;
+    --primary-lighter: #c8e6c9;
+    
+    /* 辅助色 */
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --error-color: #f44336;
+    --info-color: #2196f3;
+    
+    /* 背景色 */
+    --bg-primary: #fafafa;
+    --bg-card: #ffffff;
+    --bg-hover: #f5f5f5;
+    --bg-active: #e8f5e9;
+    
+    /* 文字颜色 */
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --text-hint: #9e9e9e;
+    --text-on-primary: #ffffff;
+    
+    /* 边框和分割线 */
+    --border-color: #e0e0e0;
+    --border-light: #f0f0f0;
+    
+    /* 阴影 */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-hover: 0 4px 20px rgba(76, 175, 80, 0.15);
+    
+    /* 圆角 */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 50%;
+    
+    /* 间距 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* 过渡动画 */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.2s ease;
+    --transition-slow: 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg-primary);
+    min-height: 100vh;
+    padding: 0;
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    min-height: 100vh;
+    box-shadow: var(--shadow-md);
+}
+
+header {
+    background: var(--bg-card);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: none;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 2em;
+    font-weight: 600;
+    letter-spacing: 0;
+    flex: 1;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-name {
+    font-size: 0.95em;
+    font-weight: 500;
+    color: #666;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.avatar-icon {
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.user-avatar:hover .avatar-icon {
+    transform: scale(1.1);
+}
+
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.clickable-stat {
+    cursor: pointer;
+}
+
+.clickable-stat:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 400;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8em;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.panel {
+    background: var(--bg-card);
+    border-radius: 0;
+    padding: var(--spacing-xl);
+    margin-bottom: 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panel h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.setting-item label {
+    font-weight: 500;
+    color: #555;
+}
+
+.setting-item input[type="number"] {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    width: 100px;
+    transition: border-color 0.3s;
+}
+
+.setting-item input[type="number"]:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.setting-item .btn-secondary {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    margin: 0 5px;
+}
+
+.completion-estimate {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+}
+
+.menu-estimate {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.completion-estimate h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.estimate-display {
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e8e8e8;
+}
+
+.estimate-text {
+    font-size: 1.1em;
+    color: #333;
+    line-height: 1.6;
+}
+
+.estimate-text.estimate-complete {
+    color: #4caf50;
+    font-weight: 500;
+}
+
+.estimate-text.estimate-soon {
+    color: #ff9800;
+    font-weight: 500;
+}
+
+.estimate-text.estimate-medium {
+    color: #2196f3;
+    font-weight: 500;
+}
+
+.estimate-text.estimate-long {
+    color: #666;
+    font-weight: 400;
+}
+
+.menu-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.btn {
+    padding: 14px 32px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-active);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-info {
+    background: var(--info-color);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-info:hover {
+    opacity: 0.9;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-warning:hover {
+    opacity: 0.9;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-success:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: var(--error-color);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-large {
+    padding: 18px 32px;
+    font-size: 1.1em;
+    border-radius: 8px;
+}
+
+.study-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-light);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin: var(--spacing-lg) 0;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    transition: width var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+    border-radius: var(--radius-full);
+    box-shadow: 0 1px 3px rgba(76, 175, 80, 0.3);
+}
+
+.progress-text {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-sm);
+    font-weight: 400;
+}
+
+.medicine-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: 60px 40px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all var(--transition-slow);
+    margin: var(--spacing-xl) 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    background-image: linear-gradient(135deg, rgba(76, 175, 80, 0.02) 0%, rgba(255, 255, 255, 1) 100%);
+    perspective: 1000px;
+}
+
+.medicine-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    border-color: var(--primary-light);
+}
+
+.medicine-card.flipped {
+    background: var(--bg-hover);
+    background-image: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(248, 249, 250, 1) 100%);
+}
+
+/* 卡片翻转动画 */
+.medicine-card {
+    transform-style: preserve-3d;
+}
+
+.card-front,
+.card-back {
+    backface-visibility: hidden;
+    transition: transform var(--transition-slow);
+}
+
+.card-front {
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.medicine-card.flipped .card-front {
+    transform: rotateY(-180deg);
+}
+
+.medicine-card.flipped .card-back {
+    transform: rotateY(0deg);
+}
+
+.medicine-name {
+    font-size: 4em;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-hint {
+    color: var(--text-hint);
+    font-size: 0.9em;
+    margin-top: var(--spacing-xl);
+    padding: 10px 20px;
+    background: var(--bg-hover);
+    border-radius: 20px;
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+}
+
+.medicine-card:hover .card-hint {
+    background: var(--primary-lighter);
+    color: var(--primary-dark);
+    border-color: var(--primary-light);
+}
+
+.medicine-info {
+    width: 100%;
+    text-align: left;
+}
+
+.info-item {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    line-height: 1.8;
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.info-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+    transform: translateX(4px);
+}
+
+.info-item strong {
+    color: var(--primary-dark);
+    margin-right: var(--spacing-md);
+    font-weight: 600;
+    display: inline-block;
+    min-width: 60px;
+}
+
+.study-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.stats-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #ffffff;
+    color: #333;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    border-color: #4caf50;
+}
+
+.stat-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.big-number {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e8e8e8;
+    animation: modalSlideIn 0.2s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 20px 30px;
+    background: #ffffff;
+    color: #333;
+    border-radius: 24px 24px 0 0;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.modal-close {
+    color: #999;
+    font-size: 28px;
+    font-weight: 300;
+    cursor: pointer;
+    line-height: 20px;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid #e0e0e0;
+    text-align: right;
+}
+
+.medicine-list {
+    list-style: none;
+    padding: 0;
+}
+
+.medicine-list-item {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+    transition: all 0.2s;
+}
+
+.medicine-list-item:hover {
+    background: #f8f9fa;
+    border-color: #4caf50;
+}
+
+.medicine-list-item strong {
+    color: #333;
+    font-size: 1.05em;
+    font-weight: 600;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 选择文本样式 */
+::selection {
+    background: #b3e5fc;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .header-top {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .user-avatar {
+        align-self: flex-end;
+    }
+    
+    .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .stat-item {
+        padding: 15px;
+    }
+    
+    .medicine-name {
+        font-size: 2.5em;
+    }
+    
+    .menu-buttons {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .study-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .panel {
+        padding: 25px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        max-height: 85vh;
+    }
+    
+    .modal-header, .modal-body, .modal-footer {
+        padding: 15px 20px;
+    }
+    
+    .medicine-card {
+        padding: 30px;
+        min-height: 350px;
+    }
+}
+
+/* 中药选择界面样式 */
+.selection-panel {
+    max-width: 1200px;
+}
+
+.selection-header {
+    margin-bottom: 20px;
+}
+
+.selection-tools {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.selection-summary {
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.category-filter {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+}
+
+.category-filter label {
+    font-weight: 500;
+    margin-right: 10px;
+    color: #333;
+}
+
+.category-filter select {
+    padding: 8px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1em;
+    min-width: 200px;
+    background: #ffffff;
+}
+
+.category-filter select:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+.categories-container {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.category-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: none;
+    border: 1px solid #e8e8e8;
+    transition: all 0.2s ease;
+}
+
+.category-section:hover {
+    border-color: #4caf50;
+}
+
+.category-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.category-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.category-count {
+    color: #666;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+.medicines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.medicine-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #e8e8e8;
+}
+
+.medicine-checkbox-item:hover {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.medicine-checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.medicine-checkbox-item input[type="checkbox"]:checked + span {
+    font-weight: 600;
+    color: #4caf50;
+}
+
+/* 中药浏览面板样式 */
+.medicine-browse-panel {
+    margin-bottom: 0;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #333;
+}
+
+.browse-content {
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+}
+
+.browse-content.collapsed {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.search-section {
+    margin-bottom: 25px;
+}
+
+.search-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.2s;
+    background: #ffffff;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    font-size: 1.2em;
+}
+
+.search-results {
+    margin-top: 20px;
+}
+
+.search-results-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.search-results-header p {
+    color: #666;
+    font-size: 0.95em;
+}
+
+.search-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-result-item:hover {
+    border-color: #4caf50;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+}
+
+.result-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.result-details {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+
+.result-label {
+    color: #333;
+    font-weight: 500;
+}
+
+mark {
+    background: #fff9c4;
+    color: #333;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.section-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: #666;
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+    color: #333;
+}
+
+.tab-btn.active {
+    color: #4caf50;
+    border-bottom-color: #4caf50;
+}
+
+.medicines-list-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.medicine-category-group {
+    margin-bottom: 25px;
+}
+
+.category-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.medicines-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.medicine-item-card {
+    padding: 14px;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.medicine-item-card:hover {
+    border-color: #4caf50;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+    transform: translateY(-2px);
+}
+
+.medicine-item-name {
+    font-size: 1.05em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.medicine-item-info {
+    font-size: 0.85em;
+    color: #666;
+    line-height: 1.5;
+}
+
+.medicine-detail-view {
+    padding: 10px 0;
+}
+
+.detail-info-item {
+    margin-bottom: 15px;
+    padding: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+}
+
+
+.detail-info-item strong {
+    color: #333;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 60px;
+}
+
+/* 学习记录样式 */
+.history-modal-content {
+    max-width: 800px;
+}
+
+.study-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.history-day-item {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.history-day-item:hover {
+    border-color: #4caf50;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+}
+
+.history-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.history-date {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+}
+
+.history-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.history-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.history-stat-value {
+    font-weight: 600;
+    color: #4caf50;
+}
+
+.history-medicines {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.history-medicine-tag {
+    padding: 6px 12px;
+    background: #f8f9fa;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    font-size: 0.9em;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-medicine-tag:hover {
+    background: #e8f5e9;
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+.empty-history {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .medicines-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+    
+    .medicines-grid-view {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    
+    .selection-tools {
+        flex-direction: column;
+    }
+    
+    .selection-tools .btn {
+        width: 100%;
+    }
+    
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .panel-header .btn {
+        width: 100%;
+    }
+}
+
